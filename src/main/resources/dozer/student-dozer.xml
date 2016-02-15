@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<mapping map-id="student-1" wildcard="false">
+		<class-a>com.dw.pract.model.Student</class-a>
+		<class-b>com.dw.pract.model.Student</class-b>
+		<field>
+			<a>name</a>
+			<b>name</b>
+		</field>
+		<field map-id="address-1">
+			<a>address</a>
+			<b>address</b>
+		</field>
+	</mapping>
+	<mapping map-id="student-2" wildcard="false">
+		<class-a>com.dw.pract.model.Student</class-a>
+		<class-b>com.dw.pract.model.Student</class-b>
+		<field>
+			<a>id</a>
+			<b>id</b>
+		</field>
+		<field>
+			<a>name</a>
+			<b>name</b>
+		</field>
+		<field map-id="subject-2">
+			<a>subjects</a>
+			<b>subjects</b>
+		</field>
+	</mapping>
+	<mapping map-id="student-3" wildcard="false">
+        <class-a>com.dw.pract.model.Student</class-a>
+        <class-b>com.dw.pract.model.Student</class-b>
+        <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
+        <field>
+            <a>name</a>
+            <b>name</b>
+        </field>
+    </mapping>
+</mappings>

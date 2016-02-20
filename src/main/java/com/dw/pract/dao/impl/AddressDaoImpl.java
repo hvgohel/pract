@@ -11,6 +11,5 @@ import com.dw.pract.service.impl.AbstractDaoImpl;
 
 @Named
 @Transactional(propagation = Propagation.REQUIRED)
-public class AddressDaoImpl extends AbstractDaoImpl<Address, Long> implements AddressDao
-{
+public class AddressDaoImpl extends AbstractDaoImpl<Address, Long> implements AddressDao {
 }

@@ -1,6 +1,5 @@
 package com.dw.pract.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,97 +17,82 @@ import com.dw.pract.utils.BeanMapper;
 
 @Service
 @Transactional(propagation = Propagation.MANDATORY)
-public class SubjectServiceImpl implements SubjectService
-{
-    @Autowired
-    private SubjectRepository subjectRepository;
+public class SubjectServiceImpl implements SubjectService {
+  @Autowired
+  private SubjectRepository subjectRepository;
 
-    @Autowired
-    private StudentDao        studentDao;
+  @Autowired
+  private StudentDao studentDao;
 
-    @Autowired
-    private BeanMapper        beanMapper;
+  @Autowired
+  private BeanMapper beanMapper;
 
-    @Override
-    public Subject add(Subject subject)
-    {
-        subjectRepository.save(subject);
-        return beanMapper.map(subject, Subject.class);
+  @Override
+  public Subject add(Subject subject) {
+    subjectRepository.save(subject);
+    return beanMapper.map(subject, Subject.class);
+  }
+
+  @Override
+  public Subject update(Subject subject) {
+    Subject sub = subjectRepository.findOne(subject.getId());
+    if (sub == null) {
+      throw new IllegalArgumentException("51", "Given subject id is not exist");
     }
 
-    @Override
-    public Subject update(Subject subject)
-    {
-        Subject sub = subjectRepository.findOne(subject.getId());
-        if (sub == null)
-        {
-            throw new IllegalArgumentException("51", "Given subject id is not exist");
-        }
+    beanMapper.map(subject, sub, "subject-1");
+    subjectRepository.save(sub);
+    return beanMapper.map(sub, Subject.class);
+  }
 
-        beanMapper.map(subject, sub, "subject-1");
-        subjectRepository.save(sub);
-        return beanMapper.map(sub, Subject.class);
+  @Override
+  public void delete(Long id) {
+    Subject subject = subjectRepository.findOne(id);
+    if (subject == null) {
+      throw new IllegalArgumentException("41", "Given subject id is not exist");
+    }
+    subjectRepository.delete(subject);
+  }
+
+  @Override
+  public List<Subject> get() {
+    List<Subject> subjects = subjectRepository.findAll();
+    return beanMapper.mapCollection(subjects, Subject.class, "subject-2");
+  }
+
+  @Override
+  public List<Subject> getSubjects(Long studentId) {
+    List<Subject> list = subjectRepository.findBystudents_id(studentId);
+    return beanMapper.mapCollection(list, Subject.class, "subject-2");
+  }
+
+  @Override
+  public List<Student> getStudents(Long subjectId) {
+    List<Student> list = studentDao.getStudents(subjectId);
+    return beanMapper.mapCollection(list, Student.class, "student-3");
+  }
+
+  @Override
+  public Subject getSubject(Long id) {
+    Subject sub = subjectRepository.findOne(id);
+    return beanMapper.map(sub, Subject.class, "subject-1");
+  }
+
+  @Override
+  public List<Subject> getSub(List<Long> ids) {
+    List<Subject> list;
+    if (ids == null) {
+      list = subjectRepository.findAll();
+    } else {
+      list = subjectRepository.findByIdIn(ids);
     }
 
-    @Override
-    public void delete(Long id)
-    {
-        Subject subject = subjectRepository.findOne(id);
-        if (subject == null)
-        {
-            throw new IllegalArgumentException("41", "Given subject id is not exist");
-        }
-        subjectRepository.delete(subject);
-    }
+    return beanMapper.mapCollection(list, Subject.class, "subject-1");
+  }
 
-    @Override
-    public List<Subject> get()
-    {
-        List<Subject> subjects = subjectRepository.findAll();
-        return beanMapper.mapCollection(subjects, Subject.class, "subject-2");
-    }
-
-    @Override
-    public List<Subject> getSubjects(Long studentId)
-    {
-        List<Subject> list = subjectRepository.findBystudents_id(studentId);
-        return beanMapper.mapCollection(list, Subject.class, "subject-2");
-    }
-
-    @Override
-    public List<Student> getStudents(Long subjectId)
-    {
-        List<Student> list = studentDao.getStudents(subjectId);
-        return beanMapper.mapCollection(list, Student.class, "student-3");
-    }
-
-    @Override
-    public Subject getSubject(Long id)
-    {
-        Subject sub = subjectRepository.findOne(id);
-        return beanMapper.map(sub, Subject.class, "subject-1");
-    }
-
-    @Override
-    public List<Subject> getSub(List<Long> ids)
-    {
-        List<Subject> list;
-        if (ids == null)
-        {
-            list = subjectRepository.findAll();
-        }
-        else
-        {
-            list = subjectRepository.findByIdIn(ids);
-        }
-
-        return beanMapper.mapCollection(list, Subject.class, "subject-1");
-    }
-
-    @Override
-    public List<Subject> getSub1(List<Long> studentIds)
-    {
-        List<Subject> list = subjectRepository.findBystudents_idIn(studentIds);
-        return beanMapper.mapCollection(list, Subject.class, "subject-3");
-    }
+  @Override
+  public List<Subject> getSub1(List<Long> studentIds) {
+    List<Subject> list = subjectRepository.findBystudents_idIn(studentIds);
+    return beanMapper.mapCollection(list, Subject.class, "subject-3");
+  }
 }

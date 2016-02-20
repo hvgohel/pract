@@ -14,33 +14,32 @@ import com.dw.pract.utils.DataSourceProvider;
  */
 public class DatabaseMigrator implements ServletContextListener {
 
-    private static Logger logger = LoggerFactory.getLogger(DatabaseMigrator.class);
+  private static Logger logger = LoggerFactory.getLogger(DatabaseMigrator.class);
 
-    /**
-     * @see ServletContextListener#contextInitialized(ServletContextEvent)
-     */
-    public void contextInitialized(ServletContextEvent sce) {
-        try {
-            logger.debug("Going to migrate database....");
+  /**
+   * @see ServletContextListener#contextInitialized(ServletContextEvent)
+   */
+  public void contextInitialized(ServletContextEvent sce) {
+    try {
+      logger.debug("Going to migrate database....");
 
-            Flyway flyway = new Flyway();
-            flyway.setDataSource(DataSourceProvider.only().getDataSource());
-            flyway.setInitOnMigrate(true);
-            flyway.setOutOfOrder(true);
-            flyway.repair();
+      Flyway flyway = new Flyway();
+      flyway.setDataSource(DataSourceProvider.only().getDataSource());
+      flyway.setInitOnMigrate(true);
+      flyway.setOutOfOrder(true);
+      flyway.repair();
 
-            int noOfMigrations = flyway.migrate();
-            if (noOfMigrations > 0) {
-                logger.info("{} migrations applied successfully.", noOfMigrations);
-            }
-        } catch (Exception e) {
-            logger.error("DB migration failed.", e);
-        }
+      int noOfMigrations = flyway.migrate();
+      if (noOfMigrations > 0) {
+        logger.info("{} migrations applied successfully.", noOfMigrations);
+      }
+    } catch (Exception e) {
+      logger.error("DB migration failed.", e);
     }
+  }
 
-    /**
-     * @see ServletContextListener#contextDestroyed(ServletContextEvent)
-     */
-    public void contextDestroyed(ServletContextEvent sce) {
-    }
+  /**
+   * @see ServletContextListener#contextDestroyed(ServletContextEvent)
+   */
+  public void contextDestroyed(ServletContextEvent sce) {}
 }

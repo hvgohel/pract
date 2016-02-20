@@ -5,26 +5,25 @@ package com.dw.pract.exception;
  * 
  * @author ashvin
  */
-public class ResourceNotFoundException extends RuntimeException implements ErrorInfo{
+public class ResourceNotFoundException extends RuntimeException implements ErrorInfo {
 
-    String code;
+  String code;
 
-    public ResourceNotFoundException() {
-        super();
-    }
+  public ResourceNotFoundException() {
+    super();
+  }
 
-    public ResourceNotFoundException(String msg) {
-        super(msg);
-    }
+  public ResourceNotFoundException(String msg) {
+    super(msg);
+  }
 
-    public ResourceNotFoundException(String code, String msg) {
-        this(msg);
-        this.code = code;
-    }
+  public ResourceNotFoundException(String code, String msg) {
+    this(msg);
+    this.code = code;
+  }
 
-    @Override
-    public String getCode()
-    {
-        return code;
-    }
+  @Override
+  public String getCode() {
+    return code;
+  }
 }

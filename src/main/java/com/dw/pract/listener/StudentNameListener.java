@@ -7,15 +7,13 @@ import org.slf4j.LoggerFactory;
 
 import com.dw.pract.model.Student;
 
-public class StudentNameListener
-{
-    private static Logger logger = LoggerFactory.getLogger(StudentNameListener.class);
+public class StudentNameListener {
+  private static Logger logger = LoggerFactory.getLogger(StudentNameListener.class);
 
-    @PreUpdate
-    public void preUpdate(Student student)
-    {
-        logger.info("preUpdate() :: start");
-        student.setName("HGohel");
-        logger.info("preUpdate() :: end");
-    }
+  @PreUpdate
+  public void preUpdate(Student student) {
+    logger.info("preUpdate() :: start");
+    student.setName("HGohel");
+    logger.info("preUpdate() :: end");
+  }
 }

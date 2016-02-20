@@ -10,34 +10,33 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class ErrorInfo {
 
-    private String code;
-    private String message;
+  private String code;
+  private String message;
 
-    public ErrorInfo() {
-    }
+  public ErrorInfo() {}
 
-    public ErrorInfo(String message) {
-        this.message = message;
-    }
+  public ErrorInfo(String message) {
+    this.message = message;
+  }
 
-    public ErrorInfo(String code, String message) {
-        this.code = code;
-        this.message = message;
-    }
+  public ErrorInfo(String code, String message) {
+    this.code = code;
+    this.message = message;
+  }
 
-    public String getCode() {
-        return code;
-    }
+  public String getCode() {
+    return code;
+  }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-    public String getMessage() {
-        return message;
-    }
+  public String getMessage() {
+    return message;
+  }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+  public void setMessage(String message) {
+    this.message = message;
+  }
 }

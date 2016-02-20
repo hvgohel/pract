@@ -8,39 +8,38 @@ import com.dw.pract.model.Address;
 import com.dw.pract.model.Student;
 
 @Service
-public interface StudentService
-{
-    Student add(Student student);
+public interface StudentService {
+  Student add(Student student);
 
-    Student update(Student student);
+  Student update(Student student);
 
-    void delete(Long id);
+  void delete(Long id);
 
-    Address add(Address address);
+  Address add(Address address);
 
-    Student assign(Long studentId, Long subjectId);
+  Student assign(Long studentId, Long subjectId);
 
-    List<Student> get(List<Long> ids);
+  List<Student> get(List<Long> ids);
 
-    List<Student> get(String name);
+  List<Student> get(String name);
 
-    int getCount();
+  int getCount();
 
-    void add(List<Student> students);
+  void add(List<Student> students);
 
-    void asyncAdd(Student student);
+  void asyncAdd(Student student);
 
-    void syncAdd(Student student);
+  void syncAdd(Student student);
 
-    Student update(Long id);
+  Student update(Long id);
 
-    void updateStud(Student student);
+  void updateStud(Student student);
 
-    void updateStud2(Student student);
+  void updateStud2(Student student);
 
-    void generate();
+  void generate();
 
-    void reactiveX(List<Student> students);
+  void reactiveX(List<Student> students);
 
-    List<Student> asyncAdd(List<Student> student);
+  List<Student> asyncAdd(List<Student> student);
 }

@@ -18,78 +18,70 @@ import com.dw.pract.service.StudentService;
  * @author ashvin
  */
 @Named
-public class BeanUtils implements ApplicationContextAware
-{
+public class BeanUtils implements ApplicationContextAware {
 
-    private static Logger logger = LoggerFactory.getLogger(BeanUtils.class);
+  private static Logger logger = LoggerFactory.getLogger(BeanUtils.class);
 
-    private static BeanUtils bOnly = null;
+  private static BeanUtils bOnly = null;
 
-    private ApplicationContext applicationContext;
+  private ApplicationContext applicationContext;
 
-    @Inject
-    private BeanMapper beanMapper;
+  @Inject
+  private BeanMapper beanMapper;
 
-    @Inject
-    private StudentService studentService;
+  @Inject
+  private StudentService studentService;
 
-    private transient AutowireCapableBeanFactory beanFactory;
+  private transient AutowireCapableBeanFactory beanFactory;
 
-    public BeanUtils()
-    {
-        logger.debug("BeanUtils() :: Initilized.");
-        bOnly = this;
-    }
+  public BeanUtils() {
+    logger.debug("BeanUtils() :: Initilized.");
+    bOnly = this;
+  }
 
-    /**
-     * Get own object from spring context.
-     * 
-     * @return
-     */
-    public static BeanUtils only()
-    {
-        return bOnly;
-    }
+  /**
+   * Get own object from spring context.
+   * 
+   * @return
+   */
+  public static BeanUtils only() {
+    return bOnly;
+  }
 
-    /**
-     * This method is used to get instance of {@link BeanMapper}
-     * 
-     * @return {@link BeanMapper} -instance of {@link BeanMapper}
-     */
-    public BeanMapper getBeanMapper()
-    {
-        return beanMapper;
-    }
+  /**
+   * This method is used to get instance of {@link BeanMapper}
+   * 
+   * @return {@link BeanMapper} -instance of {@link BeanMapper}
+   */
+  public BeanMapper getBeanMapper() {
+    return beanMapper;
+  }
 
-    public void setApplicationContext(ApplicationContext context) throws BeansException
-    {
-        this.applicationContext = context;
-        beanFactory = context.getAutowireCapableBeanFactory();
-        logger.debug("setApplicationContext() :: beanFactory injected");
-    }
+  public void setApplicationContext(ApplicationContext context) throws BeansException {
+    this.applicationContext = context;
+    beanFactory = context.getAutowireCapableBeanFactory();
+    logger.debug("setApplicationContext() :: beanFactory injected");
+  }
 
-    /**
-     * This method is used to get spring application context
-     * 
-     * @return {@link ApplicationContext} - spring application context
-     */
-    public ApplicationContext getApplicationContext()
-    {
-        return applicationContext;
-    }
+  /**
+   * This method is used to get spring application context
+   * 
+   * @return {@link ApplicationContext} - spring application context
+   */
+  public ApplicationContext getApplicationContext() {
+    return applicationContext;
+  }
 
-    /**
-     * Injects required dependencies to the object based on @Inject and @Autowired annotations.
-     * 
-     * @param bean
-     */
-    public void autowireBean(Object bean)
-    {
-        beanFactory.autowireBean(bean);
-    }
+  /**
+   * Injects required dependencies to the object based on @Inject and @Autowired annotations.
+   * 
+   * @param bean
+   */
+  public void autowireBean(Object bean) {
+    beanFactory.autowireBean(bean);
+  }
 
-    public StudentService getStudentService()
-    {
-        return studentService;
-    }
+  public StudentService getStudentService() {
+    return studentService;
+  }
 }

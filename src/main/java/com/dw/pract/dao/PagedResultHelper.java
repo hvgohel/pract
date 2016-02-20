@@ -8,7 +8,7 @@ import com.dw.pract.model.Entity;
 
 public interface PagedResultHelper<T extends Entity> extends PredicateProvider<T> {
 
-    Predicate getPredicate(Root<T> root);
+  Predicate getPredicate(Root<T> root);
 
-    Path<?> getPath(Root<T> root);
+  Path<?> getPath(Root<T> root);
 }

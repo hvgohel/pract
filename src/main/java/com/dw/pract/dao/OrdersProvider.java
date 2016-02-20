@@ -9,5 +9,5 @@ import com.dw.pract.model.Entity;
 
 public interface OrdersProvider<T extends Entity> {
 
-    List<Order> getOrders(Root<T> root);
+  List<Order> getOrders(Root<T> root);
 }

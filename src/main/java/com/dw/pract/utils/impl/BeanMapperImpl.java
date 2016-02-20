@@ -18,48 +18,48 @@ import com.dw.pract.utils.BeanMapper;
 @Named("myBeanMapper")
 public class BeanMapperImpl extends DozerBeanMapper implements BeanMapper {
 
-    private static Logger logger = LoggerFactory.getLogger(BeanMapperImpl.class);
+  private static Logger logger = LoggerFactory.getLogger(BeanMapperImpl.class);
 
-    @Inject
-    public BeanMapperImpl(@Value("classpath*:dozer/*-dozer.xml") Resource[] resources) {
-        super();
+  @Inject
+  public BeanMapperImpl(@Value("classpath*:dozer/*-dozer.xml") Resource[] resources) {
+    super();
 
-        try {
-            List<String> mappings = new ArrayList<String>(resources.length);
+    try {
+      List<String> mappings = new ArrayList<String>(resources.length);
 
-            for (Resource r : resources) {
-                String url = r.getURL().toString();
-                logger.debug("Scanned Dozer mapping file : {}", url);
-                mappings.add(url);
-            }
+      for (Resource r : resources) {
+        String url = r.getURL().toString();
+        logger.debug("Scanned Dozer mapping file : {}", url);
+        mappings.add(url);
+      }
 
-            setMappingFiles(mappings);
-        } catch (Exception e) {
-            logger.error("Error occurred while scanning mapping files.");
-        }
+      setMappingFiles(mappings);
+    } catch (Exception e) {
+      logger.error("Error occurred while scanning mapping files.");
+    }
+  }
+
+  public <T, D> List<D> mapCollection(Collection<T> list, Class<D> classDTOName) {
+    List<D> dtoList = new ArrayList<D>();
+
+    if (list != null) {
+      for (T f : list) {
+        dtoList.add(map(f, classDTOName));
+      }
     }
 
-    public <T, D> List<D> mapCollection(Collection<T> list, Class<D> classDTOName) {
-        List<D> dtoList = new ArrayList<D>();
+    return dtoList;
+  }
 
-        if (list != null) {
-            for (T f : list) {
-                dtoList.add(map(f, classDTOName));
-            }
-        }
+  public <T, D> List<D> mapCollection(Collection<T> list, Class<D> classDTOName, String mapId) {
+    List<D> dtoList = new ArrayList<D>();
 
-        return dtoList;
+    if (list != null) {
+      for (T f : list) {
+        dtoList.add(map(f, classDTOName, mapId));
+      }
     }
 
-    public <T, D> List<D> mapCollection(Collection<T> list, Class<D> classDTOName, String mapId) {
-        List<D> dtoList = new ArrayList<D>();
-
-        if (list != null) {
-            for (T f : list) {
-                dtoList.add(map(f, classDTOName, mapId));
-            }
-        }
-
-        return dtoList;
-    }
+    return dtoList;
+  }
 }

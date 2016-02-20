@@ -7,13 +7,12 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.dw.pract.model.Subject;
 
-public interface SubjectRepository extends CrudRepository<Subject, Long>, JpaRepository<Subject, Long>
-{
-    List<Subject> findBystudents_id(Long id);
+public interface SubjectRepository extends CrudRepository<Subject, Long>, JpaRepository<Subject, Long> {
+  List<Subject> findBystudents_id(Long id);
 
-    List<Subject> findByIdIn(List<Long> ids);
+  List<Subject> findByIdIn(List<Long> ids);
 
-    // List<Student> findBysubjects_id(Long id);
+  // List<Student> findBysubjects_id(Long id);
 
-    List<Subject> findBystudents_idIn(List<Long> ids);
+  List<Subject> findBystudents_idIn(List<Long> ids);
 }

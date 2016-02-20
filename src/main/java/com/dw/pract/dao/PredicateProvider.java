@@ -7,5 +7,5 @@ import com.dw.pract.model.Entity;
 
 public interface PredicateProvider<T extends Entity> {
 
-    Predicate getPredicate(Root<T> root);
+  Predicate getPredicate(Root<T> root);
 }

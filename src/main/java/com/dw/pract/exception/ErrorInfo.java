@@ -7,6 +7,6 @@ package com.dw.pract.exception;
  */
 public interface ErrorInfo {
 
-    String getCode();
+  String getCode();
 
 }

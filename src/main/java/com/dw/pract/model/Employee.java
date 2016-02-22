@@ -1,8 +1,6 @@
 package com.dw.pract.model;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.ektorp.support.CouchDbDocument;
 
@@ -40,14 +38,5 @@ public class Employee extends CouchDbDocument {
 
   public void setListAttachment(List<Attachment> listAttachment) {
     this.listAttachment = listAttachment;
-  }
-
-  public Map<String, Object> getEmployeeMap(Employee employee) {
-
-    Map<String, Object> map = new HashMap<String, Object>();
-    map.put("name", employee.getName());
-    map.put("city", employee.getCity());
-
-    return map;
   }
 }

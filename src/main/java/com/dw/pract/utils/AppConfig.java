@@ -16,7 +16,7 @@ public class AppConfig {
   @Value("${couchdb.userName}")
   private String couchdbUserName;
 
-  @Value("${couchdb.paasword}")
+  @Value("${couchdb.password}")
   private String couchdbPassword;
 
   public String getCouchdbURL() {

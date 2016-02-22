@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -50,22 +49,22 @@ public class CouchdbAPIController {
     Employee emp = couchDbConnector.get(Employee.class, id);
 
     if (multipartFiles != null) {
-      uploadAttachment(getAttachment(multipartFiles), emp.getId(), emp.getRevision());
+      String docId = emp.getId();
+      String revisionNo = emp.getRevision();
+
+      for (Attachment attachment : getAttachment(multipartFiles)) {
+        revisionNo = uploadAttachment(docId, revisionNo, attachment);
+      }
     }
   }
 
-  private void uploadAttachment(List<Attachment> attachments, String id, String revision) throws FileNotFoundException {
+  private String uploadAttachment(String id, String revisionNo, Attachment attachment) throws FileNotFoundException {
 
-    if (CollectionUtils.isNotEmpty(attachments)) {
-      for (Attachment attachment : attachments) {
+    InputStream inputStream = new FileInputStream(attachment.getFile());
+    AttachmentInputStream attachmentInputStream =
+        new AttachmentInputStream(attachment.getFileName(), inputStream, attachment.getContentType());
 
-        InputStream inputStream = new FileInputStream(attachment.getFile());
-        AttachmentInputStream attachmentInputStream =
-            new AttachmentInputStream(attachment.getFileName(), inputStream, attachment.getContentType());
-
-        couchDbConnector.createAttachment(id, revision, attachmentInputStream);
-      }
-    }
+    return couchDbConnector.createAttachment(id, revisionNo, attachmentInputStream);
   }
 
   private List<Attachment> getAttachment(MultipartFile[] multipartFiles) throws IllegalStateException, IOException {

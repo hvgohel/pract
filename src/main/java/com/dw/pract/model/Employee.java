@@ -14,6 +14,8 @@ public class Employee extends CouchDbDocument {
 
   private String city;
 
+  private String type;
+
   private List<Attachment> listAttachment;
 
   public String getName() {
@@ -38,5 +40,13 @@ public class Employee extends CouchDbDocument {
 
   public void setListAttachment(List<Attachment> listAttachment) {
     this.listAttachment = listAttachment;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
   }
 }

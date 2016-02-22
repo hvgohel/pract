@@ -141,10 +141,10 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        <!-- Spring Utils -->
         <dependency>
             <groupId>org.ektorp</groupId>
-            <artifactId>org.ektorp.spring</artifactId>
+            <artifactId>org.ektorp</artifactId>
             <version>1.4.2</version>
         </dependency>
 

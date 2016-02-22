@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.ektorp.AttachmentInputStream;
 import org.ektorp.CouchDbConnector;
 import org.springframework.http.HttpStatus;
@@ -21,18 +20,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dw.pract.model.Attachment;
 import com.dw.pract.model.Employee;
+import com.dw.pract.repository.EmployeeRepository;
 
 @RestController
 public class CouchdbAPIController {
 
   @Inject
   private CouchDbConnector couchDbConnector;
+
+  @Inject
+  private EmployeeRepository employeeRepository;
 
   @RequestMapping(value = "/data/employee", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public void create(@RequestBody Employee employee) {
@@ -90,5 +94,11 @@ public class CouchdbAPIController {
     File file = new File(System.getProperty("java.io.tmpdir") + "/" + multipartFile.getOriginalFilename());
     multipartFile.transferTo(file);
     return file;
+  }
+
+  @RequestMapping(value = "/data/employee", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public List<Employee> getAll() {
+    return employeeRepository.getAll();
   }
 }

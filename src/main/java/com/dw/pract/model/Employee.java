@@ -1,7 +1,13 @@
 package com.dw.pract.model;
 
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.constraints.NotNull;
+
+import org.ektorp.docref.CascadeType;
+import org.ektorp.docref.DocumentReferences;
+import org.ektorp.docref.FetchType;
 import org.ektorp.support.CouchDbDocument;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -10,11 +16,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 @JsonSerialize(include = Inclusion.NON_NULL)
 public class Employee extends CouchDbDocument {
 
+  @NotNull
   private String name;
 
-  private String city;
-
+  @NotNull
   private String type;
+
+  @DocumentReferences(cascade = CascadeType.ALL, fetch = FetchType.EAGER, backReference = "empId")
+  private Set<EmpAddress> addresses;
 
   private List<Attachment> listAttachment;
 
@@ -24,14 +33,6 @@ public class Employee extends CouchDbDocument {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public String getCity() {
-    return city;
-  }
-
-  public void setCity(String city) {
-    this.city = city;
   }
 
   public List<Attachment> getListAttachment() {
@@ -48,5 +49,13 @@ public class Employee extends CouchDbDocument {
 
   public void setType(String type) {
     this.type = type;
+  }
+
+  public Set<EmpAddress> getAddresses() {
+    return addresses;
+  }
+
+  public void setAddresses(Set<EmpAddress> addresses) {
+    this.addresses = addresses;
   }
 }

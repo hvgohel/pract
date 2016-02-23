@@ -26,7 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dw.pract.model.Attachment;
+import com.dw.pract.model.EmpAddress;
 import com.dw.pract.model.Employee;
+import com.dw.pract.repository.EmpAddressRepository;
 import com.dw.pract.repository.EmployeeRepository;
 
 @RestController
@@ -37,6 +39,9 @@ public class CouchdbAPIController {
 
   @Inject
   private EmployeeRepository employeeRepository;
+
+  @Inject
+  private EmpAddressRepository empAddressRepository;
 
   @RequestMapping(value = "/data/employee", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   public void create(@RequestBody Employee employee) {
@@ -100,5 +105,11 @@ public class CouchdbAPIController {
   @ResponseBody
   public List<Employee> getAll() {
     return employeeRepository.getAll();
+  }
+
+  @RequestMapping(value = "/data/address", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public List<EmpAddress> getAllAddress() {
+    return empAddressRepository.getAll();
   }
 }

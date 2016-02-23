@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.dw.pract.model.Employee;
 
 @Service
-@View(name = "all", map = "function(doc) { if (doc.type == 'employee') { emit(null, doc) } }")
+@View(name = "all", map = "function(doc) { if (doc.type == 'employee') { emit(doc._id, doc); } }")
 public class EmployeeRepository extends CouchDbRepositorySupport<Employee> {
 
   @Inject

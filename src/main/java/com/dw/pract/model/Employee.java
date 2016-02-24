@@ -22,7 +22,7 @@ public class Employee extends CouchDbDocument {
   @NotNull
   private String type;
 
-  @DocumentReferences(cascade = CascadeType.ALL, fetch = FetchType.EAGER, backReference = "empId")
+  @DocumentReferences(cascade = CascadeType.ALL, fetch = FetchType.LAZY, backReference = "empId")
   private Set<EmpAddress> addresses;
 
   private List<Attachment> listAttachment;

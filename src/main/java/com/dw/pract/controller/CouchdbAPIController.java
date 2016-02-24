@@ -6,13 +6,20 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.inject.Inject;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.ektorp.AttachmentInputStream;
 import org.ektorp.CouchDbConnector;
+import org.ektorp.Revision;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +41,8 @@ import com.dw.pract.repository.EmployeeRepository;
 @RestController
 public class CouchdbAPIController {
 
+  private static Logger logger = LoggerFactory.getLogger(CouchdbAPIController.class);
+
   @Inject
   private CouchDbConnector couchDbConnector;
 
@@ -44,9 +53,19 @@ public class CouchdbAPIController {
   private EmpAddressRepository empAddressRepository;
 
   @RequestMapping(value = "/data/employee", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-  public void create(@RequestBody Employee employee) {
+  public Employee create(@RequestBody Employee employee) {
     employee.setId(UUID.randomUUID().toString());
     couchDbConnector.create(employee);
+
+    Set<EmpAddress> addresses = employee.getAddresses();
+    if (CollectionUtils.isNotEmpty(addresses)) {
+      for (EmpAddress address : addresses) {
+        address.setEmpId(employee.getId());
+        couchDbConnector.update(address);
+      }
+    }
+
+    return couchDbConnector.get(Employee.class, employee.getId());
   }
 
   @RequestMapping(value = "/data/employee/{id}/attachment", method = RequestMethod.POST,
@@ -111,5 +130,31 @@ public class CouchdbAPIController {
   @ResponseBody
   public List<EmpAddress> getAllAddress() {
     return empAddressRepository.getAll();
+  }
+
+  @RequestMapping(value = "/data/employee/{id}", method = RequestMethod.DELETE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseStatus(value = HttpStatus.NO_CONTENT)
+  public void deleteEmployee(@PathVariable(value = "id") String id) {
+    Employee employee = couchDbConnector.get(Employee.class, id);
+    String name = employee.getName();
+    // couchDbConnector.delete(employee.getId(), employee.getRevision());
+
+    List<String> rev = new ArrayList<>();
+    List<Revision> revisions = couchDbConnector.getRevisions(id);
+    for (Revision r : revisions) {
+      rev.add(r.getRev());
+    }
+    Map<String, List<String>> map = new HashMap<>();
+    map.put(id, rev);
+    couchDbConnector.purge(map);
+    logger.debug("employee {} deleted successfully", name);
+  }
+
+  @RequestMapping(value = "/data/employee/{id}", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public Employee getAllAddress(@PathVariable(value = "id") String id) {
+    return employeeRepository.get(id);
   }
 }

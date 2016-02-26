@@ -132,23 +132,24 @@ public class CouchdbAPIController {
     return empAddressRepository.getAll();
   }
 
-  @RequestMapping(value = "/data/employee/{id}", method = RequestMethod.DELETE,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/data/employee/{id}", method = RequestMethod.DELETE)
   @ResponseStatus(value = HttpStatus.NO_CONTENT)
   public void deleteEmployee(@PathVariable(value = "id") String id) {
-    Employee employee = couchDbConnector.get(Employee.class, id);
+    Employee employee = employeeRepository.get(id);
     String name = employee.getName();
+    employeeRepository.remove(employee);
+    logger.debug("employee {} deleted successfully", name);
     // couchDbConnector.delete(employee.getId(), employee.getRevision());
 
-    List<String> rev = new ArrayList<>();
-    List<Revision> revisions = couchDbConnector.getRevisions(id);
-    for (Revision r : revisions) {
-      rev.add(r.getRev());
-    }
-    Map<String, List<String>> map = new HashMap<>();
-    map.put(id, rev);
-    couchDbConnector.purge(map);
-    logger.debug("employee {} deleted successfully", name);
+    // List<String> rev = new ArrayList<>();
+    // List<Revision> revisions = couchDbConnector.getRevisions(id);
+    // for (Revision r : revisions) {
+    // rev.add(r.getRev());
+    // }
+    // Map<String, List<String>> map = new HashMap<>();
+    // map.put(id, rev);
+    // couchDbConnector.purge(map);
+
   }
 
   @RequestMapping(value = "/data/employee/{id}", method = RequestMethod.GET,
@@ -156,5 +157,30 @@ public class CouchdbAPIController {
   @ResponseBody
   public Employee getAllAddress(@PathVariable(value = "id") String id) {
     return employeeRepository.get(id);
+  }
+
+  @RequestMapping(value = "/data/emp-address", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public List<EmpAddress> getEmpAddress(@RequestParam(value = "city") String city) {
+    return empAddressRepository.findByCity(city);
+  }
+
+  @RequestMapping(value = "/data/emp", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public List<Employee> getEmployeeByName(@RequestParam(value = "name") String name) {
+    return employeeRepository.findByName(name);
+  }
+
+  @RequestMapping(value = "/data/emp-address/count", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public int countAddress() {
+    return empAddressRepository.count();
+  }
+
+  @RequestMapping(value = "/data/emp/count", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public int countEmployee() {
+    return empAddressRepository.count();
   }
 }

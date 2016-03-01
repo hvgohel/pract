@@ -27,6 +27,8 @@ public class Employee extends CouchDbDocument {
 
   private List<Attachment> listAttachment;
 
+  private Result result;
+
   public String getName() {
     return name;
   }
@@ -57,5 +59,17 @@ public class Employee extends CouchDbDocument {
 
   public void setAddresses(Set<EmpAddress> addresses) {
     this.addresses = addresses;
+  }
+
+  public Result getResult() {
+    return result;
+  }
+
+  public void setResult(Result result) {
+    this.result = result;
+  }
+
+  public enum Result {
+    PASS, FAIL
   }
 }

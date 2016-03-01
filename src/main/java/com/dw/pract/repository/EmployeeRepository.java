@@ -32,4 +32,8 @@ public class EmployeeRepository extends CouchDbRepositorySupport<Employee> {
     ViewResult r = db.queryView(createQuery("count"));
     return r.getRows().get(0).getValueAsInt();
   }
+
+  public List<Employee> byName(String name) {
+    return null;
+  }
 }

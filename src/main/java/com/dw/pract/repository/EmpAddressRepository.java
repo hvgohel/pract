@@ -8,12 +8,14 @@ import org.ektorp.CouchDbConnector;
 import org.ektorp.ViewResult;
 import org.ektorp.support.CouchDbRepositorySupport;
 import org.ektorp.support.GenerateView;
+import org.ektorp.support.UpdateHandler;
 import org.ektorp.support.View;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import com.dw.pract.model.EmpAddress;
 
-@Service
+@Repository
+@UpdateHandler(file = "/test/validate.js", name = "validate_reader")
 public class EmpAddressRepository extends CouchDbRepositorySupport<EmpAddress> {
 
   @Inject

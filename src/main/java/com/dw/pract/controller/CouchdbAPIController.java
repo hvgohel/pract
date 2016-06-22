@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -78,6 +79,17 @@ public class CouchdbAPIController {
     }
 
     return couchDbConnector.get(Employee.class, employee.getId());
+  }
+
+  @RequestMapping(value = "/update-employee", method = RequestMethod.POST)
+  public void update() {
+
+    Map<String, Object> designDoc = couchDbConnector.get(Map.class, "_design/EmpAddress");
+
+    designDoc.put("validate_doc_update",
+        "function validate_reader(newDoc, oldDoc, userCtx) {\n if (!newDoc.hasOwnProperty('type')) {\nthrow ({\nforbidden : 'must have `type` field.'\n});\n}\n}");
+
+    couchDbConnector.update(designDoc);
   }
 
   @RequestMapping(value = "/data/employee/{id}/attachment", method = RequestMethod.POST,
